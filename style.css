@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+
+/*--- Color elements --*/
+.primary-background {
+  background-color: #004a80;
+}
+
+.primary-text {
+  color: #004a80;
+}
+
+#searchForm::placeholder{
+  color: #afafaf;
+  font-size: small;
+  font-weight: 600;
+}
+
+.small-header{
+  font-weight: 500;
+  font-size: small;
+}
+
+.medium-header{
+  font-weight: 600;
+  font-size: medium;
+}
+.large-header{
+  font-weight: 600;
+  font-size: xx-large;
+  color: #004a80;
+}
+
+.dot {
+  height: 70px;
+  width: 70px;
+  background-color: #004a80;
+  border-radius: 50%;
+  display: inline-flex;
+}
+
+.img-overlap {
+  min-width: 70px;
+  position: relative;
+}
+
+.img-relative {
+ position: absolute;
+}
+
+.md-icon-size {
+  height: 30px;
+}
+
+.small-width {
+  width: 65%;
+}
+
+.number {
+  font-size: xx-large;
+  font-weight: 600;
+}
+
+.btn-warning:hover {
+  color: #004a80;
+  background-color: #f2da56;
+}
+
+.btn-warning:focus {
+  color: #004a80!important;
+  background-color: #f6bc25!important;
+}
+
+.card {
+  border-radius: 2rem;
+  box-shadow: 0 0 10px 0 rgba(100, 100, 100, 0.26);
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+
+
+
+
+/*---Media Queries --*/
+@media (max-width: 992px) {
+  .dot {
+    height: 40px;
+    width: 40px;
+    background-color: #004a80;
+    border-radius: 50%;
+    display: inline-flex;
+  }
+
+  .number {
+    font-size: large;
+    font-weight: 500;
+  }
+  .img-overlap {
+    min-width: 40px;
+    position: relative;
+  }
+  
+  .img-relative {
+   position: absolute;
+  }
+  }
+@media (max-width: 768px) {
+  .dot {
+    height: 30px;
+    width: 30px;
+    background-color: #004a80;
+    border-radius: 50%;
+    display: inline-flex;
+  }
+  .img-overlap {
+    min-width: 30px;
+    position: relative;
+  }
+  
+  .img-relative {
+   position: absolute;
+  }
+
+ .align-items-xs-start{
+   align-items: flex-start;
+ }
+
+}
+@media (max-width: 576px) {
+  [class*="container"] {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+
+
+/*---Firefox Bug Fix --*/
+.carousel-item {
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+}
+/*--- Fixed Background Image --*/
+figure {
+  position: relative;
+  width: 100%;
+  height: 60%;
+  margin: 0!important;
+}
+.fixed-wrap {
+  clip: rect(0, auto, auto, 0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#fixed {
+  background-image: url('img/mac.png');
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  will-change: transform;
+}
+/*--- Bootstrap Padding Fix --*/
+[class*="col-"] {
+    padding: 1rem;
+}
+
+
+
+
+
+/*
+Extra small (xs) devices (portrait phones, less than 576px)
+No media query since this is the default in Bootstrap
+
+Small (sm) devices (landscape phones, 576px and up)
+@media (min-width: 576px) { ... }
+
+Medium (md) devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+Large (lg) devices (desktops, 992px and up)
+@media (min-width: 992px) { ... }
+
+Extra (xl) large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... }
+*/
+
+
+
+
+
+
+
+
