@@ -123,15 +123,14 @@
    position: absolute;
   }
 
- .align-items-xs-start{
-   align-items: flex-start;
- }
-
 }
 @media (max-width: 576px) {
   [class*="container"] {
     width: 100%;
     padding: 0;
+  }
+  .align-sm-start {
+    align-self: flex-start;
   }
 }
 

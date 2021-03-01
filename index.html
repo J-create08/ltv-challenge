@@ -12,11 +12,41 @@
 	<link href="style.css" rel="stylesheet">
 	<script>
 		$(document).ready(function(){
-			const email = $("#searchBar").text();
-			$("goButton").on("click", function(){
-
+			$(document).on('click', '#goButton', function(){
+				const searchEmail = $("#searchBar")[0].value;
+				console.log('hola')
+				var url = "https://ltv-data-api.herokuapp.com/api/v1/records.json?email="+searchEmail
+				console.log(url)
 				$.ajax({
 					type: "GET",
+					url: "https://ltv-data-api.herokuapp.com/api/v1/records.json?email="+searchEmail,
+					dataType: "json",
+
+					beforeSend: function(){
+						$("#loadingGif").show()
+					},
+
+					complete: function(){
+						$("#loadingGif").hide()
+					},
+
+					success: function(data){
+						console.log(data)
+						$("#userName").text(data['first_name']+" "+ data['last_name'])
+						$("#userAddress").text(data['address'])
+						$("userEmail").text(data['email'])
+						for (var num in data['phone_numbers']){
+							$("#phoneNumbers").append('<p class="small text-primary mb-0">'+num+'</p>')
+						}
+						for (var rel in data['relatives']){
+							$("#userRelatives").append('<p class="small mb-0">'+rel+'</p>')
+						}
+					},
+
+					error: function(){
+						$("#loadingGif").hide()
+						$("#noResults").show()
+					}
 				})
 			})
 			
@@ -48,18 +78,26 @@
 	</div>
 
 	<!-- Gif Section -->
-	<div class="container-fluid bg-light" id="loadingGif" hidden>
+	<div class="container-fluid bg-light" id="loadingGif" style="display: none;">
 		<div class="row d-flex align-items-center justify-content-center">
 			<img src="assets/loading_spinner.gif" alt="Loading">
 		</div>
 	</div>
 
 	<!-- User Card -->
-	<div class="container-fluid bg-light" id="userCard" hidden>
+	<div class="container-fluid bg-light" id="userCard" style="display: none;">
 		<div class="container">
+			<div class="container">
+				<div class="row pt-4">
+					<div class="col text-center">
+						<p class="large-header mb-0"> 1 Results</p>
+						<p class="small">Look at the results below to see the details of the person you're serched for.</p>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md"></div>
-				<div class="col-md-9">
+				<div class="col-md-9 pt-1">
 					<div class="card border-0">
 						<div class="row">
 							<div class="d-flex col align-items-start ">
@@ -84,13 +122,16 @@
 								<div class="col-sm-2 col-md-2"></div>
 								<div class="col-sm col-md pb-0">
 									<h6 class="medium-header primary-text">Address</h6>
-									<p class="small text-left">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore soluta ex quod sequi quos beatae.</p>
+									<p class="small text-left" id="userAddress">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore soluta ex quod sequi quos beatae.</p>
 								</div>
 								<div class="col-sm col-md pb-0">
 									<h6 class="medium-header primary-text">Phone Number</h6>
+									<div id="phoneNumbers">
+
+									</div>
+									<!-- <p class="small text-primary mb-0">(555)555-5555</p>
 									<p class="small text-primary mb-0">(555)555-5555</p>
-									<p class="small text-primary mb-0">(555)555-5555</p>
-									<p class="small text-primary mb-0">(555)555-5555</p>
+									<p class="small text-primary mb-0">(555)555-5555</p> -->
 								</div>
 							</div>
 							<div class="w-100"></div>
@@ -102,8 +143,11 @@
 								</div>
 								<div class="col-sm col-md pt-0">
 									<h6 class="medium-header primary-text" id="userRelatives">Relatives</h6>
-									<p class="small mb-0">Rel1</p>
-									<p class="small mb-0">Rel2</p>
+									<div id="userRelatives">
+
+									</div>
+									<!-- <p class="small mb-0">Rel1</p>
+									<p class="small mb-0">Rel2</p> -->
 								</div>
 							</div>
 						</div>
@@ -115,7 +159,7 @@
 	</div>
 
 	<!-- No Results Section -->
-	<div class="container-fluid bg-light" id="noResults" hidden>
+	<div class="container-fluid bg-light" id="noResults" style="display: none;">
 		<div class="container pt-5 pb-5">
 			<div class="row pt-5 pb-5">
 				<div class="col text-center">
@@ -136,7 +180,6 @@
 					<h1 class="text-light" id="searchTitle">Search Any Email Address</h1>
 					<p class="text-light" id="searchBody"><strong class="text-warning" id="searchStart">Start Here</strong> - Look up the owner's name,
 						photos and online profiles. See what you find!</p>
-					<form>
 						<div class="form-row">
 							<div class="col-md-10 input-group input-group-lg">
 								<input type="email" class="form-control" id="searchBar" placeholder="EMAIL" required>
@@ -146,7 +189,6 @@
 									class="btn btn-lg btn-block btn-warning primary-text" id="goButton"><strong>GO!</strong></button>
 							</div>
 						</div>
-					</form>
 					<p class="text-left text-warning small-header"><i class="fas fa-lock text-warning "></i> Enter Any
 						Email
 						Address. They won't be noticed.</p>
@@ -180,8 +222,8 @@
 		<div class="container small-width" id="infoSection">
 			<div class="row">
 				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start align-items-xs-start">
-						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center">
+					<div class="d-flex align-items-center align-items-sm-start">
+						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">1</span>
 						</div>
@@ -194,8 +236,8 @@
 
 				</div>
 				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start align-items-xs-start">
-						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center">
+					<div class="d-flex align-items-center align-items-sm-start">
+						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">2</span>
 						</div>
@@ -208,8 +250,8 @@
 				</div>
 				<div class="w-100"></div>
 				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start align-items-xs-start">
-						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center">
+					<div class="d-flex align-items-center align-items-sm-start">
+						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">3</span>
 						</div>
@@ -221,8 +263,8 @@
 					</div>
 				</div>
 				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start align-items-xs-start">
-						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center">
+					<div class="d-flex align-items-center align-items-sm-start">
+						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">4</span>
 						</div>
@@ -235,8 +277,8 @@
 				</div>
 				<div class="w-100"></div>
 				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start align-items-xs-start">
-						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center">
+					<div class="d-flex align-items-center align-items-sm-start">
+						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">5</span>
 						</div>
@@ -248,8 +290,8 @@
 					</div>
 				</div>
 				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start align-items-xs-start">
-						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center">
+					<div class="d-flex align-items-center align-items-sm-start">
+						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">6</span>
 						</div>
