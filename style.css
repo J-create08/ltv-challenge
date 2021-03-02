@@ -9,25 +9,20 @@
   color: #004a80;
 }
 
+.btn-warning:hover {
+  color: #004a80;
+  background-color: #f2da56;
+}
+
+.btn-warning:focus {
+  color: #004a80!important;
+  background-color: #f6bc25!important;
+}
+
 #searchForm::placeholder{
   color: #afafaf;
   font-size: small;
   font-weight: 600;
-}
-
-.small-header{
-  font-weight: 500;
-  font-size: small;
-}
-
-.medium-header{
-  font-weight: 600;
-  font-size: medium;
-}
-.large-header{
-  font-weight: 600;
-  font-size: xx-large;
-  color: #004a80;
 }
 
 .dot {
@@ -45,6 +40,25 @@
   border-radius: 50%;
   display: inline-flex;
 }
+
+/*--- Font elements --*/
+
+.small-header{
+  font-weight: 500;
+  font-size: small;
+}
+
+.medium-header{
+  font-weight: 600;
+  font-size: medium;
+}
+.large-header{
+  font-weight: 600;
+  font-size: xx-large;
+  color: #004a80;
+}
+
+/*--- Icon elements --*/
 
 .img-overlap {
   min-width: 70px;
@@ -68,25 +82,8 @@
   font-weight: 600;
 }
 
-.btn-warning:hover {
-  color: #004a80;
-  background-color: #f2da56;
-}
 
-.btn-warning:focus {
-  color: #004a80!important;
-  background-color: #f6bc25!important;
-}
-
-.card {
-  border-radius: 2rem;
-  box-shadow: 0 0 10px 0 rgba(100, 100, 100, 0.26);
-}
-
-.card-body {
-  padding: 1rem;
-}
-
+/*--- Validation elements --*/
 .error {
   border:2px solid red;
   border-radius: 0rem!important;
@@ -94,6 +91,17 @@
 
 .error-span-bg{
   background-color: red;
+}
+
+
+/*--- Display fix elements --*/
+.card {
+  border-radius: 2rem;
+  box-shadow: 0 0 10px 0 rgba(100, 100, 100, 0.26);
+}
+
+.card-body {
+  padding: 1rem;
 }
 
 .margin-fix {
