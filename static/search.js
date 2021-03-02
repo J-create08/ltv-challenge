@@ -15,6 +15,7 @@ var searchEmail = (email) =>{
 
             success: function(data){
                 var responseCount = Object.keys(data).length
+                hideError()
                 if (responseCount == 0){
                     hideElements()
                     $("#noResults").show() 
@@ -55,6 +56,11 @@ var searchEmail = (email) =>{
 var hideElements = () =>{
     $("#mainContainer").hide()
     $("#infoSection").hide() 
+}
+
+var hideError = () => {
+    $("#searchBar").removeClass("error")
+    $("#errorSpan").hide()
 }
 
 
