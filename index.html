@@ -10,48 +10,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 	<link href="style.css" rel="stylesheet">
-	<script>
-		$(document).ready(function(){
-			$(document).on('click', '#goButton', function(){
-				const searchEmail = $("#searchBar")[0].value;
-				console.log('hola')
-				var url = "https://ltv-data-api.herokuapp.com/api/v1/records.json?email="+searchEmail
-				console.log(url)
-				$.ajax({
-					type: "GET",
-					url: "https://ltv-data-api.herokuapp.com/api/v1/records.json?email="+searchEmail,
-					dataType: "json",
-
-					beforeSend: function(){
-						$("#loadingGif").show()
-					},
-
-					complete: function(){
-						$("#loadingGif").hide()
-					},
-
-					success: function(data){
-						console.log(data)
-						$("#userName").text(data['first_name']+" "+ data['last_name'])
-						$("#userAddress").text(data['address'])
-						$("userEmail").text(data['email'])
-						for (var num in data['phone_numbers']){
-							$("#phoneNumbers").append('<p class="small text-primary mb-0">'+num+'</p>')
-						}
-						for (var rel in data['relatives']){
-							$("#userRelatives").append('<p class="small mb-0">'+rel+'</p>')
-						}
-					},
-
-					error: function(){
-						$("#loadingGif").hide()
-						$("#noResults").show()
-					}
-				})
-			})
-			
-		});
-	</script>
+	<script src="static/search.js"></script>
 </head>
 
 <body>
@@ -62,7 +21,7 @@
 				<div class="col-md pt-0"></div>
 				<div class="col-md-9 pt-0">
 					<nav class="navbar navbar-expand-md primary-background pt-0 sticky-top">
-						<a class="navbar-brand" href="#"><img class="img-fluid" src="assets/PNGs/Logo@2x.png"
+						<a class="navbar-brand" href="index.html"><img class="img-fluid" src="assets/PNGs/Logo@2x.png"
 								width="130" alt=""></a>
 						<div class="ml-auto">
 							<a class="navbar-brand" href="#"><img class="img-fluid" src="assets/PNGs/icn_search@2x.png"
@@ -84,14 +43,15 @@
 		</div>
 	</div>
 
-	<!-- User Card -->
+	<!-- User Card-->
 	<div class="container-fluid bg-light" id="userCard" style="display: none;">
-		<div class="container">
+		<div class="container pb-5">
 			<div class="container">
 				<div class="row pt-4">
 					<div class="col text-center">
 						<p class="large-header mb-0"> 1 Results</p>
-						<p class="small">Look at the results below to see the details of the person you're serched for.</p>
+						<p class="small">Look at the results below to see the details of the person you're searched for.
+						</p>
 					</div>
 				</div>
 			</div>
@@ -101,15 +61,17 @@
 					<div class="card border-0">
 						<div class="row">
 							<div class="d-flex col align-items-start ">
-								<div class="col-md-2 d-flex align-items-center justify-content-center mt-3 pr-0">
-									<span class="dot img-overlap"></span>
-									<span class="text-warning img-relative "><img class="md-icon-size"
+								<div
+									class="col-md-2 col-sm-2 d-flex align-items-center justify-content-center pt-sm-1 mt-3 pr-0 mobile-fix">
+									<span class="user-dot img-overlap mobile-icon"></span>
+									<span class="text-warning img-relative "><img
+											class="md-icon-size sm-icon-size mobile-icon"
 											src="assets/PNGs/icn_person@2x.png" alt=""></span>
 								</div>
-								<div class="col-md-10 pl-0 pb-0">
+								<div class="col-md-10 col-sm-10 pl-0 pb-0">
 									<div class="card-body pb-0">
 										<h5 class="card-title large-header" id="userName">Card title</h5>
-										<p class="small mr-1">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+										<p class="small mr-1" id="userDescription">Lorem ipsum dolor sit amet consectetur adipisicing elit.
 											Repellendus voluptas, sit ut optio ex dolores inventore voluptatem eum
 											deserunt
 											quod natus.</p>
@@ -117,40 +79,48 @@
 								</div>
 							</div>
 						</div>
-						<div class="container pl-0">
-							<div class="d-flex col">
-								<div class="col-sm-2 col-md-2"></div>
-								<div class="col-sm col-md pb-0">
-									<h6 class="medium-header primary-text">Address</h6>
-									<p class="small text-left" id="userAddress">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore soluta ex quod sequi quos beatae.</p>
-								</div>
-								<div class="col-sm col-md pb-0">
-									<h6 class="medium-header primary-text">Phone Number</h6>
-									<div id="phoneNumbers">
 
-									</div>
-									<!-- <p class="small text-primary mb-0">(555)555-5555</p>
-									<p class="small text-primary mb-0">(555)555-5555</p>
-									<p class="small text-primary mb-0">(555)555-5555</p> -->
+
+						<div class="row mobile-padding">
+							<div class="col-md-2 col-sm-2 ml-3"></div>
+
+							<div class="col-5 col-sm pl-sm-2 col-md pb-0">
+								<h6 class="medium-header primary-text">Address</h6>
+								<p class="small text-left" id="userAddress">Lorem ipsum, dolor sit amet consectetur
+									adipisicing elit. Dolore
+									soluta ex quod sequi quos beatae.</p>
+							</div>
+
+							<div class="col-5 col-sm pl-sm-2 col-md pb-0">
+								<h6 class="medium-header primary-text">Phone Number</h6>
+								<div id="phoneNumbers" class="pb-2">
+
 								</div>
 							</div>
-							<div class="w-100"></div>
-							<div class="d-flex col">
-								<div class="col-sm-2 col-md-2"></div>
-								<div class="col-sm col-md pt-0">
-									<h6 class="medium-header primary-text">Email</h6>
-									<p class="small">UserEmail</p>
-								</div>
-								<div class="col-sm col-md pt-0">
-									<h6 class="medium-header primary-text" id="userRelatives">Relatives</h6>
-									<div id="userRelatives">
 
-									</div>
-									<!-- <p class="small mb-0">Rel1</p>
-									<p class="small mb-0">Rel2</p> -->
-								</div>
-							</div>
 						</div>
+
+
+
+
+						<div class="row mobile-padding">
+							<div class="col-md-2 col-sm-2 ml-3"></div>
+
+							<div class="col-11 col-sm pl-sm-2 col-md pt-0">
+								<h6 class="medium-header primary-text">Email</h6>
+								<p class="small" id="userEmail"></p>
+							</div>
+
+							<div class="col-11 col-sm pl-sm-2 col-md pt-0 mb-1">
+								<h6 class="medium-header primary-text">Relatives</h6>
+								<div id="userRelatives">
+
+								</div>
+							</div>
+
+						</div>
+
+
 					</div>
 				</div>
 				<div class="col-md"></div>
@@ -174,22 +144,30 @@
 	<!-- Jumbotron Section -->
 	<div class="container-fluid primary-background">
 		<div class="container">
-			<div class="row jumbotron primary-background pt-0 mb-0 text-center">
+			<div class="row jumbotron primary-background pt-4 pb-4 mb-0 text-center">
 				<div class="col-md"></div>
-				<div class="col-md-9 pb-0">
+				<div class="col-md-9 pb-3">
 					<h1 class="text-light" id="searchTitle">Search Any Email Address</h1>
-					<p class="text-light" id="searchBody"><strong class="text-warning" id="searchStart">Start Here</strong> - Look up the owner's name,
-						photos and online profiles. See what you find!</p>
-						<div class="form-row">
-							<div class="col-md-10 input-group input-group-lg">
-								<input type="email" class="form-control" id="searchBar" placeholder="EMAIL" required>
-							</div>
-							<div class="col-md-2">
-								<button type="submit"
-									class="btn btn-lg btn-block btn-warning primary-text" id="goButton"><strong>GO!</strong></button>
-							</div>
+					<div class="d-flex align-items-center justify-content-center mb-3" id="searchDiv">
+						<p class="text-warning medium-header pr-1" id="searchStart">Start Here</p>
+						<p class="text-light" id="searchBody"> - Look up the owner's name,
+							photos and online profiles. See what you find!</p>
+					</div>
+					<div class="form-row">
+						<div class="col-md-10 input-group-lg pb-2">
+							<input type="email" class="form-control" id="searchBar" placeholder="EMAIL" required>
 						</div>
-					<p class="text-left text-warning small-header"><i class="fas fa-lock text-warning "></i> Enter Any
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-lg btn-block btn-warning primary-text"
+								id="goButton"><strong>GO!</strong></button>
+						</div>
+					</div>
+					<div class="form-row">
+						<span class="error-span-bg text-light small margin-fix pl-2" style="display: none;"
+							id="errorSpan">Please add a valid email address.</span>
+					</div>
+					<p class="text-left text-warning small-header mt-2"><i class="fas fa-lock text-warning "></i> Enter
+						Any
 						Email
 						Address. They won't be noticed.</p>
 				</div>
@@ -200,13 +178,13 @@
 	</div>
 
 	<!-- Main container -->
-	<div class="container-fluid bg-light">
+	<div class="container-fluid bg-light pt-5" id="mainContainer">
 		<div class="container">
 			<div class="row text-center">
 				<div class="col-md"></div>
 				<div class="col-md-9">
 					<h1 class="primary-text font-weight-bold">Reverse Email Lookup</h1>
-					<div class="col-md-12 text-muted text-left ">
+					<div class="col-md-12 text-muted text-left pb-3 pt-1">
 						<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
 							Dolores tenetur facilis, ea eveniet omnis, ipsam, illum nobis
 							in optio maxime voluptatem animi nihil maiores neque temporibus
@@ -221,83 +199,89 @@
 		<!--- Two Column Section -->
 		<div class="container small-width" id="infoSection">
 			<div class="row">
-				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start">
+				<div class="col-sm col-md p-3">
+					<div class="d-flex align-items-center align-items-center">
 						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">1</span>
 						</div>
 						<div class="col-9 col-md-9">
 							<h5 class="primary-text medium-header">Lorem ipsum dolor</h5>
-							<p class="small">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima aperiam
+							<p class="small mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima
+								aperiam
 								exercitationem.</p>
 						</div>
 					</div>
 
 				</div>
-				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start">
+				<div class="col-sm col-md p-3">
+					<div class="d-flex align-items-center align-items-center">
 						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">2</span>
 						</div>
 						<div class="col-9 col-md-9">
 							<h5 class="primary-text medium-header">Lorem ipsum dolor</h5>
-							<p class="small">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima aperiam
+							<p class="small mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima
+								aperiam
 								exercitationem.</p>
 						</div>
 					</div>
 				</div>
 				<div class="w-100"></div>
-				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start">
+				<div class="col-sm col-md p-3">
+					<div class="d-flex align-items-center align-items-center">
 						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">3</span>
 						</div>
 						<div class="col-9 col-md-9">
 							<h5 class="primary-text medium-header">Lorem ipsum dolor</h5>
-							<p class="small">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima aperiam
+							<p class="small mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima
+								aperiam
 								exercitationem.</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start">
+				<div class="col-sm col-md p-3">
+					<div class="d-flex align-items-center align-items-center">
 						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">4</span>
 						</div>
 						<div class="col-9 col-md-9">
 							<h5 class="primary-text medium-header">Lorem ipsum dolor</h5>
-							<p class="small">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima aperiam
+							<p class="small mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima
+								aperiam
 								exercitationem.</p>
 						</div>
 					</div>
 				</div>
 				<div class="w-100"></div>
-				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start">
+				<div class="col-sm col-md p-3">
+					<div class="d-flex align-items-center align-items-center">
 						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">5</span>
 						</div>
 						<div class="col-9 col-md-md-9">
 							<h5 class="primary-text medium-header">Lorem ipsum dolor</h5>
-							<p class="small">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima aperiam
+							<p class="small mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima
+								aperiam
 								exercitationem.</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm col-md">
-					<div class="d-flex align-items-center align-items-sm-start">
+				<div class="col-sm col-md p-3">
+					<div class="d-flex align-items-center align-items-center">
 						<div class="col-3 col-md-3 d-flex align-items-center justify-content-center align-sm-start">
 							<span class="dot img-overlap"></span>
 							<span class="text-warning number img-relative mb-0">6</span>
 						</div>
 						<div class="col-9 col-md-9">
 							<h5 class="primary-text medium-header">Lorem ipsum dolor</h5>
-							<p class="small">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima aperiam
+							<p class="small mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima
+								aperiam
 								exercitationem.</p>
 						</div>
 					</div>
@@ -308,7 +292,7 @@
 
 	<!-- Footer -->
 	<footer class="footer">
-		<div class="container">
+		<div class="container p-2">
 			<div class="row">
 				<div class="col-md-9">
 					<p class="text-light text-muted small pl-2 pr-2 mb-0"> Lorem ipsum dolor sit, amet consectetur
@@ -325,13 +309,6 @@
 
 		</div>
 	</footer>
-
-
-	<!--- Image Slider -->
-
-	<!--- Cards -->
-
-
 
 
 </body>
