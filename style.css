@@ -42,6 +42,10 @@
 }
 
 /*--- Font elements --*/
+::-webkit-input-placeholder {
+  font-size: small!important;
+  font-weight: 600;
+}
 
 .small-header{
   font-weight: 500;
